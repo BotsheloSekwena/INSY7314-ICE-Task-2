@@ -1,2 +1,363 @@
-# INSY7314-ICE-Task-2
-INSY7314 ICE Task 2 - Express.js REST API. MVC architecture with Joi validation, CORS, error handling. CRUD operations for Gadgets (name, brand, price, category, stock). University project.
+# INSY7314 ICE Task 2 - Structured Backend API with Express
+
+## Overview
+
+A well-structured RESTful API built with Express.js for the Information Systems 3D module (INSY7314). This API demonstrates best practices in backend development including proper folder structure, input validation, CORS configuration, and centralized error handling.
+
+**Assignment:** ICE Task 2 - Learning Unit 2 Theme 1 Activity  
+**Module:** INSY7314 - Information Systems 3D  
+**Institution:** Emeris Ruimsig
+
+---
+
+## Features
+
+- Route, Controller, Middleware architecture
+- Input validation using Joi with custom error messages
+- Controlled CORS configuration
+- Central error handler
+- In-memory data storage with auto-generated IDs
+- CRUD operations for Gadgets resource
+
+---
+
+## Technology Stack
+
+| Technology | Purpose |
+|------------|---------|
+| Node.js | JavaScript runtime |
+| Express.js | Web framework |
+| Joi | Input validation |
+| CORS | Cross-Origin Resource Sharing |
+| Dotenv | Environment variables |
+| Nodemon | Development auto-reload |
+
+---
+
+## Resource: Gadgets
+
+Each gadget has **6 attributes** (5 + id):
+
+| Attribute | Type | Description |
+|-----------|------|-------------|
+| `id` | string | Unique identifier (auto-generated) |
+| `name` | string | Gadget name |
+| `brand` | string | Manufacturer/brand |
+| `price` | number | Price in USD |
+| `category` | string | Product category |
+| `stock` | number | Quantity in stock |
+
+---
+
+## API Endpoints
+
+### 1. System Checks
+
+| Method | Endpoint | Description | Status |
+|--------|----------|-------------|--------|
+| GET | `/` | Root route - Welcome message | 200 OK |
+| GET | `/health` | Server health check | 200 OK |
+
+### 2. Resource Retrieval (GET)
+
+| Method | Endpoint | Description | Status |
+|--------|----------|-------------|--------|
+| GET | `/api/gadgets` | Fetch all gadgets | 200 OK |
+| GET | `/api/gadgets/:id` | Fetch a gadget by ID | 200 OK / 404 Not Found |
+
+### 3. Resource Creation (POST)
+
+| Method | Endpoint | Description | Status |
+|--------|----------|-------------|--------|
+| POST | `/api/gadgets` | Add a new gadget (with validation) | 201 Created / 400 Bad Request |
+
+---
+
+## Validation Rules
+
+| Field | Rules | Error Message |
+|-------|-------|---------------|
+| `name` | Required, string, min 1 character | "Name is required" |
+| `brand` | Required, string, min 1 character | "Brand is required" |
+| `price` | Required, positive number | "Price must be greater than 0" |
+| `category` | Required, string, min 1 character | "Category is required" |
+| `stock` | Required, non-negative integer | "Stock cannot be negative" |
+
+---
+
+## Sample Request Bodies (POST /api/gadgets)
+
+You can use any 5 of the following 10 sample gadgets for testing. All will return a 201 Created response.
+
+### Gadget 1: Gaming Laptop Pro
+
+```json
+{
+  "name": "Gaming Laptop Pro",
+  "brand": "GameTech",
+  "price": 1599.99,
+  "category": "Computers",
+  "stock": 25
+}
+```
+
+### Gadget 2: Noise Cancelling Headphones
+
+```json
+{
+  "name": "Noise Cancelling Headphones",
+  "brand": "SoundWave",
+  "price": 249.99,
+  "category": "Audio",
+  "stock": 80
+}
+```
+
+### Gadget 3: Fitness Tracker X2
+
+```json
+{
+  "name": "Fitness Tracker X2",
+  "brand": "FitLife",
+  "price": 79.99,
+  "category": "Wearables",
+  "stock": 150
+}
+```
+
+### Gadget 4: 4K Action Camera
+
+```json
+{
+  "name": "4K Action Camera",
+  "brand": "AdventureCam",
+  "price": 399.99,
+  "category": "Cameras",
+  "stock": 45
+}
+```
+
+### Gadget 5: Smart Home Hub
+
+```json
+{
+  "name": "Smart Home Hub",
+  "brand": "HomeSmart",
+  "price": 129.99,
+  "category": "Home Automation",
+  "stock": 60
+}
+```
+
+### Gadget 6: Wireless Mechanical Keyboard
+
+```json
+{
+  "name": "Wireless Mechanical Keyboard",
+  "brand": "KeyMaster",
+  "price": 89.99,
+  "category": "Accessories",
+  "stock": 100
+}
+```
+
+### Gadget 7: Smartphone 5G Pro
+
+```json
+{
+  "name": "Smartphone 5G Pro",
+  "brand": "TechCorp",
+  "price": 1099.99,
+  "category": "Electronics",
+  "stock": 30
+}
+```
+
+### Gadget 8: Portable Power Bank 20000mAh
+
+```json
+{
+  "name": "Portable Power Bank 20000mAh",
+  "brand": "ChargeFast",
+  "price": 49.99,
+  "category": "Accessories",
+  "stock": 200
+}
+```
+
+### Gadget 9: Smart TV 55 inch 4K
+
+```json
+{
+  "name": "Smart TV 55 inch 4K",
+  "brand": "VisionTech",
+  "price": 699.99,
+  "category": "Electronics",
+  "stock": 15
+}
+```
+
+### Gadget 10: Wireless Charging Pad
+
+```json
+{
+  "name": "Wireless Charging Pad",
+  "brand": "PowerWave",
+  "price": 29.99,
+  "category": "Accessories",
+  "stock": 120
+}
+```
+
+---
+
+## Validation Error Test Cases
+
+### Test 1: Missing Name
+
+```json
+{
+  "brand": "TechCorp",
+  "price": 999.99,
+  "category": "Electronics",
+  "stock": 50
+}
+```
+
+**Expected Error:** "Name is required" | **Status:** 400 Bad Request
+
+### Test 2: Invalid Price (Negative)
+
+```json
+{
+  "name": "Smartphone",
+  "brand": "TechCorp",
+  "price": -100,
+  "category": "Electronics",
+  "stock": 50
+}
+```
+
+**Expected Error:** "Price must be greater than 0" | **Status:** 400 Bad Request
+
+### Test 3: Invalid Stock (Negative)
+
+```json
+{
+  "name": "Smartphone",
+  "brand": "TechCorp",
+  "price": 999.99,
+  "category": "Electronics",
+  "stock": -5
+}
+```
+
+**Expected Error:** "Stock cannot be negative" | **Status:** 400 Bad Request
+
+### Test 4: Missing Brand
+
+```json
+{
+  "name": "Smartphone",
+  "price": 999.99,
+  "category": "Electronics",
+  "stock": 50
+}
+```
+
+**Expected Error:** "Brand is required" | **Status:** 400 Bad Request
+
+### Test 5: Missing Category
+
+```json
+{
+  "name": "Smartphone",
+  "brand": "TechCorp",
+  "price": 999.99,
+  "stock": 50
+}
+```
+
+**Expected Error:** "Category is required" | **Status:** 400 Bad Request
+
+---
+
+## Testing with Postman
+
+All routes were tested using Postman. Below is a summary of all endpoints tested:
+
+| # | Method | Endpoint | Status Expected |
+|---|--------|----------|-----------------|
+| 1 | GET | `http://localhost:4000/` | 200 OK |
+| 2 | GET | `http://localhost:4000/health` | 200 OK |
+| 3 | GET | `http://localhost:4000/api/gadgets` | 200 OK |
+| 4 | GET | `http://localhost:4000/api/gadgets/g1` | 200 OK |
+| 5 | POST | `http://localhost:4000/api/gadgets` | 201 Created |
+| 6 | POST | `http://localhost:4000/api/gadgets` | 201 Created |
+| 7 | POST | `http://localhost:4000/api/gadgets` | 201 Created |
+| 8 | POST | `http://localhost:4000/api/gadgets` | 201 Created |
+| 9 | POST | `http://localhost:4000/api/gadgets` | 201 Created |
+| 10 | POST | `http://localhost:4000/api/gadgets` | 400 Bad Request |
+| 11 | POST | `http://localhost:4000/api/gadgets` | 400 Bad Request |
+| 12 | POST | `http://localhost:4000/api/gadgets` | 400 Bad Request |
+
+---
+
+## Installation & Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/secure-mern-app.git
+
+# Navigate to the api folder
+cd secure-mern-app/api
+
+# Install dependencies
+npm install
+
+# Create .env file
+cp .env.example .env
+
+# Start the server (development)
+npm run dev
+
+# Start the server (production)
+npm start
+```
+
+---
+
+## Project Structure
+
+```
+secure-mern-app/
+└── api/
+    ├── .env
+    ├── .gitignore
+    ├── index.js
+    ├── package.json
+    ├── controllers/
+    │   └── gadgetController.js
+    ├── middleware/
+    │   ├── errorHandler.js
+    │   └── validateGadgetInput.js
+    └── routes/
+        └── gadgetRoutes.js
+```
+
+---
+
+## Screenshots
+
+All Postman test screenshots are included in the submission document.
+
+---
+
+## Author
+
+**Student Name:** [Botshelo Koketso Sekwena]  
+**Student Number:** [ST10445866]  
+**Module:** INSY7314 - Information Systems 3D  
+**Institution:** Emeris Ruimsig
+
+---
