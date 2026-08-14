@@ -352,3 +352,12 @@ secure-mern-app/
 All Postman test screenshots are included in the submission document.
 
 ---
+
+## Author
+
+**Student Name:** [Botshelo Koketso Sekwena]  
+**Student Number:** [ST10445866]  
+**Module:** INSY7314 - Information Systems 3D  
+**Institution:** Emeris Ruimsig
+
+---
