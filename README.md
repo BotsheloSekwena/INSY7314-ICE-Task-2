@@ -6,7 +6,7 @@ A well-structured RESTful API built with Express.js for the Information Systems 
 
 **Assignment:** ICE Task 2 - Learning Unit 2 Theme 1 Activity  
 **Module:** INSY7314 - Information Systems 3D  
-**Institution:** IIE MSA
+**Institution:** Emeris Ruimsig
 
 ---
 
